@@ -75,15 +75,15 @@ fun main(){
                         lastContact
                     }
                     is AddPhoneContactCommand -> {
-                        addPhoneContact(command.name, command.phoneNumber)
+                        lastContact=  addPhoneContact(command.name, command.phoneNumber)
                         Person(command.name, command.phoneNumber, "")
                     }
                     is AddEmailContactCommand -> {
-                        addEmailContact(command.name, command.email)
+                        lastContact = addEmailContact(command.name, command.email)
                         Person(command.name,"", command.email)
                     }
                     is ShowCommand -> {
-                        showLastContact(commands, lastContact)
+                        showLastContact(lastContact)
                         lastContact
                     }
                 }
@@ -137,15 +137,17 @@ fun help(){
     println("show - показать последнее добавленное значение")
 }
 
-fun addPhoneContact(name: String, value: String){
+fun addPhoneContact(name: String, value: String): Person{
     println("Контакт $name c номером телефона $value добавлен")
+    return Person(name, value, "")
 }
 
-fun addEmailContact(name: String, value: String){
+fun addEmailContact(name: String, value: String): Person{
     println("Контакт $name c электронной почтой $value добавлен")
+    return Person(name, "", value)
 }
 
-fun showLastContact(contacts: List<Command>, lastContact: Person?){
+fun showLastContact(lastContact: Person?){
     if (lastContact != null) {
         print("Последнее добавленное значение: ")
         println("Имя: ${lastContact.name}, Телефон: ${lastContact.phone}, Email: ${lastContact.email}")
